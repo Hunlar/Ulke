@@ -1,0 +1,18 @@
+{
+  "name": "ulke-savasi-botu",
+  "description": "Vampir Köylü tarzı, ülke savaşı temalı Telegram grup oyunu botu. Türkçe ve Azerbaycan dili desteklidir.",
+  "repository": "https://github.com/Hunlar/Ulke",
+  "logo": "https://raw.githubusercontent.com/Hunlar/Ulke/main/logo.png",
+  "keywords": ["telegram", "heroku", "oyun", "ülke", "vampir-köylü", "chatbot", "bot"],
+  "env": {
+    "TOKEN": {
+      "description": "Telegram Bot Token (BotFather üzerinden alınır)",
+      "required": true
+    }
+  },
+  "buildpacks": [
+    {
+      "url": "heroku/python"
+    }
+  ]
+}
