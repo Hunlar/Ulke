@@ -1,110 +1,122 @@
 {
-  "osmanli": {
-    "ad": "Osmanlı İmparatorluğu",
-    "guc": "Her 2 oylamada bir ülke infaz eder.",
-    "tip": "infaz",
-    "gif": "https://media.tenor.com/BxwWqAfwRYEAAAAd/ottoman-sultan.gif"
+  "Osmanlı İmparatorluğu": {
+    "power_description": "2 ülkeyi saf dışı bırakabilir fakat her 2 oylamada bir 1 ülkeyi saf dışı bırakabilir.",
+    "power_cooldown": 2,
+    "power_use_message": "Osmanlı güçlü darbeyi vurdu! Bir ülke saf dışı bırakıldı.",
+    "power_use_gif": "https://media.giphy.com/media/3o7aD2saalBwwftBIY/giphy.gif"
   },
-  "german": {
-    "ad": "German İmparatorluğu",
-    "guc": "2 oylamada bir kaos çıkarır, tek başına oy kullanır.",
-    "tip": "kaos",
-    "gif": "https://media.tenor.com/GmYtq2nhW6UAAAAd/german-army.gif"
+  "German İmparatorluğu": {
+    "power_description": "2 oylamada bir kaos çıkarıp sadece kendisi oy kullanabilir.",
+    "power_cooldown": 2,
+    "power_use_message": "German İmparatorluğu kaosu başlattı! Sadece kendisi oy kullanabilir.",
+    "power_use_gif": "https://media.giphy.com/media/26ufdipQqU2lhNA4g/giphy.gif"
   },
-  "biritanya": {
-    "ad": "Biritanya",
-    "guc": "Bir ülkenin oyunu kendi istediği ülkeye yönlendirir.",
-    "tip": "manipulasyon",
-    "gif": "https://media.tenor.com/WgnxqdlNZwoAAAAd/queen-elizabeth.gif"
+  "Biritanya": {
+    "power_description": "İstediği ülkenin oylama tercihlerini manipüle eder.",
+    "power_cooldown": 2,
+    "power_use_message": "Biritanya rakiplerini manipüle etti!",
+    "power_use_gif": "https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif"
   },
-  "pdm": {
-    "ad": "Renkli Dünya (PDM)",
-    "guc": "Şok mesaj gönderir, meydan okur.",
-    "tip": "karisik",
-    "gif": "https://media.tenor.com/6pMVyzWjNG4AAAAd/pride-protest.gif"
+  "Renkli Dünya": {
+    "power_description": "Kimse ne olduğunu bilmez, meydan okur.",
+    "power_cooldown": 0,
+    "power_use_message": "Pembe Dünya Direnişçileri PDM: Götümüz başımız ayrı oynuyor, biz ibneler buradayız ve hepinize meydan okuyoruz!",
+    "power_use_gif": "https://media.giphy.com/media/xT0xeJpnrWC4XWblEk/giphy.gif"
   },
-  "fransa": {
-    "ad": "Fransa",
-    "guc": "Elendikten sonra bir ülkeyi geri getirme hakkı.",
-    "tip": "destek",
-    "gif": "https://media.tenor.com/NubpZ0b9pRYAAAAd/french-flag.gif"
+  "Fransa": {
+    "power_description": "Bir ülkenin oyunu geçersiz kılabilir.",
+    "power_cooldown": 3,
+    "power_use_message": "Fransa rakibin oyunu geçersiz kıldı!",
+    "power_use_gif": "https://media.giphy.com/media/3o7aD7TV3EAYG8aZ6k/giphy.gif"
   },
-  "rusya": {
-    "ad": "Rusya",
-    "guc": "Gece tüm özel güçleri engeller.",
-    "tip": "engel",
-    "gif": "https://media.tenor.com/4Khuqy9sLxsAAAAd/putin.gif"
+  "İtalya": {
+    "power_description": "Bir oyuncunun oyunu ikiye katlanır.",
+    "power_cooldown": 3,
+    "power_use_message": "İtalya'nın etkisiyle oyunuz iki kat sayıldı!",
+    "power_use_gif": "https://media.giphy.com/media/xT9IgzoKnwFNmISR8I/giphy.gif"
   },
-  "cin": {
-    "ad": "Çin",
-    "guc": "Her gece rastgele bir ülkenin kimliğini öğrenir.",
-    "tip": "bilgi",
-    "gif": "https://media.tenor.com/vHFS4RPrzGgAAAAd/china.gif"
+  "Rusya": {
+    "power_description": "Bir oyuncunun oyunu iptal eder.",
+    "power_cooldown": 3,
+    "power_use_message": "Rusya'nın etkisiyle oy iptal edildi!",
+    "power_use_gif": "https://media.giphy.com/media/3o6ZtqB6ObPBLqO9AA/giphy.gif"
   },
-  "amerika": {
-    "ad": "Amerika",
-    "guc": "Gece ve gündüz boyunca dokunulmaz olur.",
-    "tip": "koruma",
-    "gif": "https://media.tenor.com/3O2sUED6kJcAAAAd/usa.gif"
+  "Çin": {
+    "power_description": "Bir sonraki oylamayı etkisiz kılar.",
+    "power_cooldown": 4,
+    "power_use_message": "Çin sonraki oylamayı etkisiz kıldı!",
+    "power_use_gif": "https://media.giphy.com/media/l4FGuhL4U2WyjdkaY/giphy.gif"
   },
-  "japonya": {
-    "ad": "Japonya",
-    "guc": "Öldüğünde yanında bir ülkeyi götürür.",
-    "tip": "intikam",
-    "gif": "https://media.tenor.com/4zjuHyOmqy8AAAAd/samurai.gif"
+  "Japonya": {
+    "power_description": "Bir oyuncunun oyunu gizler.",
+    "power_cooldown": 3,
+    "power_use_message": "Japonya gizli operasyon yaptı!",
+    "power_use_gif": "https://media.giphy.com/media/l0Exk8EUzSLsrErEQ/giphy.gif"
   },
-  "israil": {
-    "ad": "İsrail",
-    "guc": "Çift oy hakkı vardır.",
-    "tip": "oygucu",
-    "gif": "https://media.tenor.com/fRveRzKeXYgAAAAd/netanyahu.gif"
+  "ABD": {
+    "power_description": "Bir oyuncunun oy hakkını askıya alır.",
+    "power_cooldown": 3,
+    "power_use_message": "ABD oyuncunun oy hakkını askıya aldı!",
+    "power_use_gif": "https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif"
   },
-  "iran": {
-    "ad": "İran",
-    "guc": "%50 ihtimalle saldırıdan kurtulur.",
-    "tip": "savunma",
-    "gif": "https://media.tenor.com/UVQ2q1WxgNUAAAAd/iran.gif"
+  "İspanya": {
+    "power_description": "Bir oyuncunun oylama sonuçlarını değiştirir.",
+    "power_cooldown": 4,
+    "power_use_message": "İspanya oylama sonuçlarını değiştirdi!",
+    "power_use_gif": "https://media.giphy.com/media/3o6ZsXQh9YJShU3d3O/giphy.gif"
   },
-  "hindistan": {
-    "ad": "Hindistan",
-    "guc": "Oy sıralamasını rastgele karıştırır.",
-    "tip": "sabotaj",
-    "gif": "https://media.tenor.com/qDkM1pmDrXIAAAAd/india.gif"
+  "Türkiye": {
+    "power_description": "Bir oyuncuyu korur, oyları geçersiz kılınamaz.",
+    "power_cooldown": 3,
+    "power_use_message": "Türkiye, oyuncuyu korudu!",
+    "power_use_gif": "https://media.giphy.com/media/3o6Zt5V8ld4BIXRo3m/giphy.gif"
   },
-  "kuzeykore": {
-    "ad": "Kuzey Kore",
-    "guc": "Ölümünü sahte gösterir, geri döner.",
-    "tip": "geri_don",
-    "gif": "https://media.tenor.com/5zwRCbRrE5MAAAAd/kim-jong-un.gif"
+  "Hindistan": {
+    "power_description": "Bir sonraki turda oy hakkı kazanır.",
+    "power_cooldown": 4,
+    "power_use_message": "Hindistan oy hakkını kazandı!",
+    "power_use_gif": "https://media.giphy.com/media/3ohs7KViFJ4bp3Zb4E/giphy.gif"
   },
-  "brezilya": {
-    "ad": "Brezilya",
-    "guc": "2 ülkeyi oylamaya aynı anda sunar.",
-    "tip": "ikili",
-    "gif": "https://media.tenor.com/2-nE1dELRdsAAAAd/brazil.gif"
+  "Brezilya": {
+    "power_description": "Bir oyuncunun oyunu iki tur boyunca sayılmaz.",
+    "power_cooldown": 5,
+    "power_use_message": "Brezilya oyuncunun oyunu sayılmadı!",
+    "power_use_gif": "https://media.giphy.com/media/l0ExhTGD4Jf8lH0IE/giphy.gif"
   },
-  "italya": {
-    "ad": "İtalya",
-    "guc": "Birinin özel gücünü çalar.",
-    "tip": "hirsiz",
-    "gif": "https://media.tenor.com/6Hq45QK-LroAAAAd/italy.gif"
+  "Kanada": {
+    "power_description": "Bir oyuncuyu gözlem altına alır.",
+    "power_cooldown": 3,
+    "power_use_message": "Kanada oyuncuyu gözlem altına aldı!",
+    "power_use_gif": "https://media.giphy.com/media/3ohhwmTCJUo6T9vQzq/giphy.gif"
   },
-  "yunanistan": {
-    "ad": "Yunanistan",
-    "guc": "Oyları açık verir.",
-    "tip": "seffaf",
-    "gif": "https://media.tenor.com/HYKd2aRgR9QAAAAd/greece.gif"
+  "Avustralya": {
+    "power_description": "Bir oyuncunun oyunu geçersiz kılar.",
+    "power_cooldown": 3,
+    "power_use_message": "Avustralya oyuncunun oyunu geçersiz kıldı!",
+    "power_use_gif": "https://media.giphy.com/media/3o7aD5tv1ogNBtDhDi/giphy.gif"
   },
-  "meksika": {
-    "ad": "Meksika",
-    "guc": "Kendisine gelen oyları başka ülkeye yönlendirir.",
-    "tip": "sapma",
-    "gif": "https://media.tenor.com/N4EY5DvHN6sAAAAd/mexico.gif"
+  "Meksika": {
+    "power_description": "Bir oyuncunun oyun dışı bırakılmasını hızlandırır.",
+    "power_cooldown": 4,
+    "power_use_message": "Meksika oyun dışı bırakmayı hızlandırdı!",
+    "power_use_gif": "https://media.giphy.com/media/l0MYB8Ory7Hqefo9a/giphy.gif"
   },
-  "turkiye": {
-    "ad": "Türkiye",
-    "guc": "Oylamayı bir kere sıfırlar ve yeniden başlatır.",
-    "tip": "reset",
-    "gif": "https://media.tenor.com/kWfAmXqQYOIAAAAd/turkey.gif"
+  "İsveç": {
+    "power_description": "Bir oyuncunun oyunu iptal eder.",
+    "power_cooldown": 3,
+    "power_use_message": "İsveç oyuncunun oyunu iptal etti!",
+    "power_use_gif": "https://media.giphy.com/media/3o6Zt7E5PwzObn1eqc/giphy.gif"
+  },
+  "Norveç": {
+    "power_description": "Oyuncuların oylarını bir tur engeller.",
+    "power_cooldown": 4,
+    "power_use_message": "Norveç oyuncuların oylarını engelledi!",
+    "power_use_gif": "https://media.giphy.com/media/l0MYEpzPox95YDDXW/giphy.gif"
+  },
+  "Finlandiya": {
+    "power_description": "Bir oyuncunun oyunu gizler.",
+    "power_cooldown": 3,
+    "power_use_message": "Finlandiya gizli operasyon yaptı!",
+    "power_use_gif": "https://media.giphy.com/media/3o7TKtdfBdPjZTpFFu/giphy.gif"
   }
 }
