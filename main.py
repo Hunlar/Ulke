@@ -20,7 +20,7 @@ roles = {
         "power_key": "osmanli_el",
     },
     "German İmparatorluğu": {
-        "power_desc": "2 oylamada 1 kez kaos çıkartır, sadece kendisi oy kullanabilir.",
+        "power_desc": "2 oylamada 1 kez kaos çıkarır, sadece kendisi oy kullanabilir.",
         "power_key": "german_kaos",
     },
     "Biritanya": {
@@ -31,7 +31,20 @@ roles = {
         "power_desc": "Kimse ne olduğunu bilmez, meydan okur.",
         "power_key": "renkli_dunya_meydan",
     },
-    # Diğer ülkeler eklenmeli burada...
+    "Fransa": {"power_desc": "Gizli sabotaj yapabilir.", "power_key": "fransa_sabotaj"},
+    "Rusya": {"power_desc": "Savunma gücü fazladır.", "power_key": "rusya_savunma"},
+    "Çin": {"power_desc": "Ekstra kaynak toplayabilir.", "power_key": "cin_kaynak"},
+    "Japonya": {"power_desc": "Hızlı saldırı yapabilir.", "power_key": "japonya_saldiri"},
+    "İtalya": {"power_desc": "Diplomasi yapabilir.", "power_key": "italya_diplomasi"},
+    "Hindistan": {"power_desc": "Yedek asker çağırabilir.", "power_key": "hindistan_yedek"},
+    "İspanya": {"power_desc": "Gizli ittifak kurabilir.", "power_key": "ispanya_ittifak"},
+    "Brezilya": {"power_desc": "Coğrafi avantaj kullanabilir.", "power_key": "brezilya_advantage"},
+    "Meksika": {"power_desc": "Ekstra hareket hakkı.", "power_key": "meksika_hareket"},
+    "Kanada": {"power_desc": "Dayanıklılık artar.", "power_key": "kanada_dayaniklilik"},
+    "Avustralya": {"power_desc": "Hızlı yeniden yapılanma.", "power_key": "avustralya_reorg"},
+    "Türkiye": {"power_desc": "Moral yükseltir.", "power_key": "turkiye_moral"},
+    "Güney Afrika": {"power_desc": "Kaynak engelleme.", "power_key": "gafrika_blok"},
+    "Mısır": {"power_desc": "Stratejik savunma.", "power_key": "misir_strateji"},
 }
 
 katilim_listesi = set()
@@ -61,6 +74,9 @@ TEXTS = {
 }
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    gif_url = "https://media.giphy.com/media/3o7TKxLYSTXGxnt6so/giphy.gif"  # Savaş temalı örnek GIF
+    await context.bot.send_animation(chat_id=update.effective_chat.id, animation=gif_url)
+
     keyboard = [
         [
             InlineKeyboardButton("Dil: Türkçe 🇹🇷", callback_data="lang_tr"),
@@ -106,7 +122,8 @@ async def katil(update: Update, context: ContextTypes.DEFAULT_TYPE):
     else:
         katilim_listesi.add(user_id)
         await update.message.reply_text(TEXTS["joined_success"].format(len(katilim_listesi)))
-        async def roles_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+
+async def roles_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     rol_metni = "🎭 Oyundaki Roller ve Güçleri:\n\n"
     for rol, detay in roles.items():
         rol_metni += f"• {rol}: {detay['power_desc']}\n"
@@ -190,7 +207,8 @@ async def vote(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if len(oylama_katilimlar) == len(katilim_listesi):
         await update.message.reply_text(TEXTS["all_votes_in"])
         # Oylama sonuçları hesaplanacak, oy kullanma ve özel güç işlemleri burada yapılacak
-        async def ozel_guc(update: Update, context: ContextTypes.DEFAULT_TYPE):
+
+async def ozel_guc(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_id = update.message.from_user.id
 
     if user_id not in katilim_listesi or user_id not in ozel_guc_kullanilabilir:
@@ -206,7 +224,7 @@ async def vote(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text(TEXTS["no_role"])
         return
 
-    await update.message.reply_text(f"Özel gücünüzü kullanmak için hedefinizi belirtin. Örnek: /ozelguc <ülke adı>")
+    await update.message.reply_text(f"Özel gücünüzü kullanmak için hedefinizi belirtin. Örnek: /ozelguc_target <ülke adı>")
     guc_kullanimi_yapildi[user_id] = True
 
 
