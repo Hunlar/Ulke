@@ -1,4 +1,5 @@
 import os
+import random
 from telegram import (
     Update,
     InlineKeyboardButton,
@@ -20,6 +21,18 @@ chat_lang = {}  # chat_id -> 'tr' veya 'az'
 oy_kayitlari = {}  # user_id -> oy verdiği kişi/ülke id
 oylama_aktif = False
 oylama_katilimcilar = set()
+
+# Roller ve güçleri
+roles = {
+    "Osmanlı İmparatorluğu": "2 ülkeyi saf dışı bırakabilir fakat aynı oylamada değil, her 2 oylamada bir 1 ülkeyi saf dışı bırakabilir.",
+    "German İmparatorluğu": "2 oylamada bir kaos çıkartıp sadece kendisi oy kullanabilir.",
+    "Biritanya": "İstediği ülkenin oylamada tercihlerini manipüle edebilir.",
+    "Renkli Dünya": "Kimse ne olduğunu bilmez, meydan okur.",
+    # Diğer roller eklenebilir...
+}
+
+# Oyuncu rollerini sakla: user_id -> rol adı
+oyuncu_rolleri = {}
 
 # Metinler
 TEXTS = {
@@ -80,10 +93,14 @@ TEXTS = {
     "vote_no_active": {
         "tr": "Şu anda oylama aktif değil.",
         "az": "Hal-hazırda səsvermə aktiv deyil.",
-    }
+    },
+    "no_role": {
+        "tr": "Henüz rolünüz atanmamış veya oyuna katılmamışsınız.",
+        "az": "Hələ rolunuz təyin edilməyib və ya oyuna qoşulmamısınız.",
+    },
 }
 
-GIF_WELCOME = "https://media.giphy.com/media/3o7aD4n3dSlzDzpEsg/giphy.gif"
+GIF_WELCOME = "https://media.tenor.com/8wDtXn62t1MAAAAC/recep-tayyip-erdogan-tea.gif"
 
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -119,8 +136,28 @@ async def katil(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(TEXTS["join_prompt"][lang], reply_markup=await main_menu_keyboard(lang))
 
 
+def rolleri_dagit(katilimcilar):
+    oyuncu_rolleri = {}
+    roller_listesi = list(roles.keys())
+    random.shuffle(roller_listesi)
+
+    for i, oyuncu in enumerate(katilimcilar):
+        rol = roller_listesi[i % len(roller_listesi)]
+        oyuncu_rolleri[oyuncu] = rol
+    return oyuncu_rolleri
+
+
+async def roller_bildirim(app, oyuncu_rolleri):
+    for user_id, rol in oyuncu_rolleri.items():
+        mesaj = f"🎭 Rolün: {rol}\nGüç: {roles[rol]}"
+        try:
+            await app.bot.send_message(chat_id=user_id, text=mesaj)
+        except Exception:
+            pass
+
+
 async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    global oylama_aktif
+    global oylama_aktif, oyuncu_rolleri
     query = update.callback_query
     data = query.data
     chat_id = query.message.chat.id
@@ -162,10 +199,14 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 async def start_vote(context: ContextTypes.DEFAULT_TYPE):
-    global oylama_aktif, oy_kayitlari, oylama_katilimcilar
+    global oylama_aktif, oy_kayitlari, oylama_katilimcilar, oyuncu_rolleri
     oylama_aktif = True
     oy_kayitlari = {}
     oylama_katilimcilar = katilim_listesi.copy()
+
+    # Roller dağıtımı ve bildirim
+    oyuncu_rolleri = rolleri_dagit(oylama_katilimcilar)
+    await roller_bildirim(context.application, oyuncu_rolleri)
 
     for user_id in oylama_katilimcilar:
         secenekler = [str(uid) for uid in oylama_katilimcilar if uid != user_id]
@@ -178,7 +219,7 @@ async def start_vote(context: ContextTypes.DEFAULT_TYPE):
             reply_markup=reply_markup,
         )
 
-    # Örnek: 40 saniye sonra oylama bitirilsin
+    # 40 saniye sonra oylama bitirilsin
     context.job_queue.run_once(end_vote, 40, context=None)
 
 
@@ -186,12 +227,10 @@ async def end_vote(context: ContextTypes.DEFAULT_TYPE):
     global oylama_aktif
     oylama_aktif = False
 
-    # Oyları say
     oy_sayaci = {}
     for oy in oy_kayitlari.values():
         oy_sayaci[oy] = oy_sayaci.get(oy, 0) + 1
 
-    # En çok oyu alan
     if not oy_sayaci:
         mesaj = "Kimse oy kullanmadı."
     else:
@@ -199,12 +238,27 @@ async def end_vote(context: ContextTypes.DEFAULT_TYPE):
         kazananlar = [k for k, v in oy_sayaci.items() if v == max_oy]
         mesaj = f"Oylama kapandı! En çok oy alanlar: {', '.join(kazananlar)}"
 
-    # Tüm katılımcılara mesaj gönder
     for user_id in oylama_katilimcilar:
         try:
             await context.bot.send_message(chat_id=user_id, text=mesaj)
         except Exception:
             pass
+
+
+async def rol_goster(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    user_id = update.effective_user.id
+    rol = oyuncu_rolleri.get(user_id)
+    if rol:
+        mesaj = f"🎭 Rolünüz: {rol}\nGüç: {roles[rol]}"
+    else:
+        mesaj = TEXTS["no_role"]["tr"]
+    await update.message.reply_text(mesaj)
+
+
+async def roller_listesi(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    roller_adi = list(roles.keys())
+    mesaj = "🎭 Oyundaki Roller:\n" + "\n".join(f"- {rol}" for rol in roller_adi)
+    await update.message.reply_text(mesaj)
 
 
 def main():
@@ -215,6 +269,8 @@ def main():
 
     app.add_handler(CommandHandler("start", start))
     app.add_handler(CommandHandler("katil", katil))
+    app.add_handler(CommandHandler("rol", rol_goster))
+    app.add_handler(CommandHandler("roles", roller_listesi))
     app.add_handler(CallbackQueryHandler(button_handler))
 
     print("Bot çalışıyor...")
