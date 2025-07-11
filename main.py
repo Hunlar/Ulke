@@ -127,13 +127,17 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     reply_markup = InlineKeyboardMarkup(keyboard)
 
-    # 🎬 Savaş temalı gif
+    # 1. GIF gönder
     gif_url = "https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif"
-
     await context.bot.send_animation(
         chat_id=update.effective_chat.id,
-        animation=gif_url,
-        caption=START_TEXT,
+        animation=gif_url
+    )
+
+    # 2. Butonlu mesajı ayrı gönder (buton tıklanma sorununu önlemek için)
+    await context.bot.send_message(
+        chat_id=update.effective_chat.id,
+        text=START_TEXT,
         reply_markup=reply_markup
     )
 
