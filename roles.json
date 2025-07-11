@@ -1,0 +1,92 @@
+{
+  "osmanli": {
+    "ad": "Osmanlı İmparatorluğu",
+    "guc": "Her 2 oylamada bir ülke infaz eder.",
+    "tip": "infaz"
+  },
+  "german": {
+    "ad": "German İmparatorluğu",
+    "guc": "2 oylamada bir kaos çıkarır, tek başına oy kullanır.",
+    "tip": "kaos"
+  },
+  "biritanya": {
+    "ad": "Biritanya",
+    "guc": "Bir ülkenin oyunu kendi istediği ülkeye yönlendirir.",
+    "tip": "manipulasyon"
+  },
+  "pdm": {
+    "ad": "Renkli Dünya (PDM)",
+    "guc": "Şok mesaj gönderir, meydan okur.",
+    "tip": "karisik"
+  },
+  "fransa": {
+    "ad": "Fransa",
+    "guc": "Elendikten sonra bir ülkeyi geri getirme hakkı.",
+    "tip": "destek"
+  },
+  "rusya": {
+    "ad": "Rusya",
+    "guc": "Gece tüm özel güçleri engeller.",
+    "tip": "engel"
+  },
+  "cin": {
+    "ad": "Çin",
+    "guc": "Her gece rastgele bir ülkenin kimliğini öğrenir.",
+    "tip": "bilgi"
+  },
+  "amerika": {
+    "ad": "Amerika",
+    "guc": "Gece ve gündüz boyunca dokunulmaz olur.",
+    "tip": "koruma"
+  },
+  "japonya": {
+    "ad": "Japonya",
+    "guc": "Öldüğünde yanında bir ülkeyi götürür.",
+    "tip": "intikam"
+  },
+  "israil": {
+    "ad": "İsrail",
+    "guc": "Çift oy hakkı vardır.",
+    "tip": "oygucu"
+  },
+  "iran": {
+    "ad": "İran",
+    "guc": "%50 ihtimalle saldırıdan kurtulur.",
+    "tip": "savunma"
+  },
+  "hindistan": {
+    "ad": "Hindistan",
+    "guc": "Oy sıralamasını rastgele karıştırır.",
+    "tip": "sabotaj"
+  },
+  "kuzeykore": {
+    "ad": "Kuzey Kore",
+    "guc": "Ölümünü sahte gösterir, geri döner.",
+    "tip": "geri_don"
+  },
+  "brezilya": {
+    "ad": "Brezilya",
+    "guc": "2 ülkeyi oylamaya aynı anda sunar.",
+    "tip": "ikili"
+  },
+  "italya": {
+    "ad": "İtalya",
+    "guc": "Birinin özel gücünü çalar.",
+    "tip": "hirsiz"
+  },
+  "yunanistan": {
+    "ad": "Yunanistan",
+    "guc": "Oyları açık verir.",
+    "tip": "seffaf"
+  },
+  "meksika": {
+    "ad": "Meksika",
+    "guc": "Kendisine gelen oyları başka ülkeye yönlendirir.",
+    "tip": "sapma"
+  },
+  "turkiye": {
+    "ad": "Türkiye",
+    "guc": "Oylamayı bir kere sıfırlar ve yeniden başlatır.",
+    "tip": "reset"
+  }
+}
