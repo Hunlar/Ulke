@@ -14,7 +14,6 @@ from telegram.ext import (
 
 TOKEN = os.getenv("BOT_TOKEN")
 
-# Global değişkenler
 katilim_listesi = set()
 chat_lang = {}  # chat_id -> 'tr' veya 'az'
 
@@ -22,99 +21,59 @@ oy_kayitlari = {}  # user_id -> oy verdiği kişi/ülke id
 oylama_aktif = False
 oylama_katilimcilar = set()
 
-# Roller ve güçleri
 roles = {
     "Osmanlı İmparatorluğu": "2 ülkeyi saf dışı bırakabilir fakat aynı oylamada değil, her 2 oylamada bir 1 ülkeyi saf dışı bırakabilir.",
     "German İmparatorluğu": "2 oylamada bir kaos çıkartıp sadece kendisi oy kullanabilir.",
     "Biritanya": "İstediği ülkenin oylamada tercihlerini manipüle edebilir.",
     "Renkli Dünya": "Kimse ne olduğunu bilmez, meydan okur.",
-    # Diğer roller eklenebilir...
+    "Fransa": "Ekonomik sabotaj gücüne sahiptir, rakipleri zayıflatır.",
+    "Rusya": "Güçlü askeri saldırı yapabilir, 1 tur boyunca çift oy kullanır.",
+    "Çin": "Teknolojik üstünlük sağlar, rakip oylarını bloke eder.",
+    "Japonya": "Hızlı saldırı yapar, oy verme süresini kısaltır.",
+    "İtalya": "Diplomasi ile diğerlerini etkiler, oyları değiştirebilir.",
+    "ABD": "Yüksek hava gücü ile 1 oylamada 2 ülkeyi etkisiz hale getirir.",
+    "İspanya": "Gizli istihbarat toplar, diğer oyuncuların rollerini öğrenir.",
+    "Hindistan": "Sosyal hareketler çıkarır, oylamayı etkiler.",
+    "Brezilya": "Kaynakları kontrol eder, oy haklarını artırır.",
+    "Mısır": "Tarihi etkisiyle rakiplerin oylarını azaltır.",
+    "Yunanistan": "Savunma gücü yüksektir, 1 tur koruma sağlar.",
+    "İsveç": "Nötr politikalar uygular, oylar tarafsızdır.",
+    "Norveç": "Doğal engeller yaratır, rakip hareketlerini sınırlar.",
+    "Kanada": "Uluslararası destek verir, ittifak kurar."
 }
 
-# Oyuncu rollerini sakla: user_id -> rol adı
-oyuncu_rolleri = {}
+GIF_WELCOME = "https://media.tenor.com/Nzj6nUkSUWkAAAAd/war-battle.gif"
 
-# Metinler
-TEXTS = {
-    "welcome": {
-        "tr": "👋 Ülke Savaşları Botuna hoşgeldin!\n🎮 Oyuna katılmak için /katil komutunu kullanabilirsin.",
-        "az": "👋 Ölkə Müharibəsi Botuna xoş gəlmisiniz!\n🎮 Oyuna qoşulmaq üçün /katil əmri verə bilərsiniz.",
-    },
-    "join_prompt": {
-        "tr": "Oyuna katılmak için aşağıdaki butona tıklayın. Katılım 2 dakika sürecek.",
-        "az": "Oyuna qoşulmaq üçün aşağıdakı düyməni basın. Qeydiyyat 2 dəqiqə davam edəcək.",
-    },
-    "already_joined": {
-        "tr": "Zaten oyuna katıldınız.",
-        "az": "Artıq oyuna qoşulmusunuz.",
-    },
-    "joined_success": {
-        "tr": "Başarıyla katıldınız! Toplam oyuncu: {}",
-        "az": "Uğurla qoşuldunuz! Ümumi oyunçu sayı: {}",
-    },
-    "choose_lang": {
-        "tr": "Lütfen dilinizi seçin / Zəhmət olmasa dilinizi seçin",
-        "az": "Lütfen dilinizi seçin / Zəhmət olmasa dilinizi seçin",
-    },
-    "game_explain": {
-        "tr": (
-            "🎲 **Oyun Nasıl Oynanır?**\n"
-            "1. /katil ile oyuna katılın.\n"
-            "2. Roller rastgele dağıtılır.\n"
-            "3. Oylama turları ile oyuncular elenir.\n"
-            "4. Özel güçlerinizi kullanarak rakiplerinizi saf dışı bırakın.\n"
-            "5. Son hayatta kalan kazanır!"
-        ),
-        "az": (
-            "🎲 **Oyun Necə Oynanır?**\n"
-            "1. /katil ilə oyuna qoşulun.\n"
-            "2. Rollar təsadüfi paylanır.\n"
-            "3. Səsvermə turları ilə oyunçular çıxarılır.\n"
-            "4. Xüsusi güclərinizi istifadə edərək rəqiblərinizi aradan qaldırın.\n"
-            "5. Son sağ qalan qalib olur!"
-        ),
-    },
-    "support_dev": {
-        "tr": "Destek Grubu: t.me/kizilsancaktr\nGeliştirici: t.me/ZeydBinhalit",
-        "az": "Dəstək Qrupu: t.me/kizilsancaktr\nİnkişaf etdirici: t.me/ZeydBinhalit",
-    },
-    "vote_prompt": {
-        "tr": "Lütfen oyunu kullanmak için aşağıdaki butonlardan birine tıklayın:",
-        "az": "Zəhmət olmasa aşağıdakı düymələrdən birinə basaraq səs verin:",
-    },
-    "vote_received": {
-        "tr": "Oyunuz alındı: {}",
-        "az": "Səsiniz qeydə alındı: {}",
-    },
-    "vote_closed": {
-        "tr": "Oylama kapandı!",
-        "az": "Səsvermə bitdi!",
-    },
-    "vote_no_active": {
-        "tr": "Şu anda oylama aktif değil.",
-        "az": "Hal-hazırda səsvermə aktiv deyil.",
-    },
-    "no_role": {
-        "tr": "Henüz rolünüz atanmamış veya oyuna katılmamışsınız.",
-        "az": "Hələ rolunuz təyin edilməyib və ya oyuna qoşulmamısınız.",
-    },
-}
-
-GIF_WELCOME = "https://media.tenor.com/8wDtXn62t1MAAAAC/recep-tayyip-erdogan-tea.gif"
+START_TEXT = (
+    "3. Dünya Savaşı'nda kader seni nereye götürecek, "
+    "alman mı olacaksın Osmanlı mı yoksa pembe dünyayı seçen bir zavallı mı ? "
+    "Kader sana hangi rolü verecek."
+)
 
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     chat_id = update.effective_chat.id
+
     keyboard = [
         [
             InlineKeyboardButton("Türkçe 🇹🇷", callback_data="lang_tr"),
             InlineKeyboardButton("Azərbaycanca 🇦🇿", callback_data="lang_az"),
-        ]
+        ],
+        [
+            InlineKeyboardButton("📝 Katıl", callback_data="join_game"),
+            InlineKeyboardButton("📜 Komutlar", callback_data="show_roles"),
+        ],
+        [InlineKeyboardButton("🎲 Oyun Nasıl Oynanır?", callback_data="game_explain")],
+        [
+            InlineKeyboardButton("Destek Grubu", url="https://t.me/kizilsancaktr"),
+            InlineKeyboardButton("Geliştirici", url="https://t.me/ZeydBinhalit"),
+        ],
     ]
+
     reply_markup = InlineKeyboardMarkup(keyboard)
 
     await context.bot.send_animation(chat_id=chat_id, animation=GIF_WELCOME)
-    await update.message.reply_text(TEXTS["choose_lang"]["tr"], reply_markup=reply_markup)
+    await update.message.reply_text(START_TEXT, reply_markup=reply_markup)
 
 
 async def main_menu_keyboard(lang):
@@ -186,6 +145,11 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         lang = chat_lang.get(chat_id, "tr")
         await query.edit_message_text(TEXTS["game_explain"][lang], parse_mode="Markdown", reply_markup=await main_menu_keyboard(lang))
 
+    elif data == "show_roles":
+        roller_adi = list(roles.keys())
+        mesaj = "🎭 Oyundaki Roller:\n" + "\n".join(f"- {rol}" for rol in roller_adi)
+        await query.edit_message_text(mesaj)
+
     elif data.startswith("oy_"):
         if not oylama_aktif:
             await query.answer(TEXTS["vote_no_active"][chat_lang.get(chat_id, "tr")], show_alert=True)
@@ -204,7 +168,6 @@ async def start_vote(context: ContextTypes.DEFAULT_TYPE):
     oy_kayitlari = {}
     oylama_katilimcilar = katilim_listesi.copy()
 
-    # Roller dağıtımı ve bildirim
     oyuncu_rolleri = rolleri_dagit(oylama_katilimcilar)
     await roller_bildirim(context.application, oyuncu_rolleri)
 
@@ -219,7 +182,6 @@ async def start_vote(context: ContextTypes.DEFAULT_TYPE):
             reply_markup=reply_markup,
         )
 
-    # 40 saniye sonra oylama bitirilsin
     context.job_queue.run_once(end_vote, 40, context=None)
 
 
@@ -259,6 +221,72 @@ async def roller_listesi(update: Update, context: ContextTypes.DEFAULT_TYPE):
     roller_adi = list(roles.keys())
     mesaj = "🎭 Oyundaki Roller:\n" + "\n".join(f"- {rol}" for rol in roller_adi)
     await update.message.reply_text(mesaj)
+
+
+TEXTS = {
+    "welcome": {
+        "tr": "👋 Ülke Savaşları Botuna hoşgeldin!\n🎮 Oyuna katılmak için /katil komutunu kullanabilirsin.",
+        "az": "👋 Ölkə Müharibəsi Botuna xoş gəlmisiniz!\n🎮 Oyuna qoşulmaq üçün /katil əmri verə bilərsiniz.",
+    },
+    "join_prompt": {
+        "tr": "Oyuna katılmak için aşağıdaki butona tıklayın. Katılım 2 dakika sürecek.",
+        "az": "Oyuna qoşulmaq üçün aşağıdakı düyməni basın. Qeydiyyat 2 dəqiqə davam edəcək.",
+    },
+    "already_joined": {
+        "tr": "Zaten oyuna katıldınız.",
+        "az": "Artıq oyuna qoşulmusunuz.",
+    },
+    "joined_success": {
+        "tr": "Başarıyla katıldınız! Toplam oyuncu: {}",
+        "az": "Uğurla qoşuldunuz! Ümumi oyunçu sayı: {}",
+    },
+    "choose_lang": {
+        "tr": "Lütfen dilinizi seçin / Zəhmət olmasa dilinizi seçin",
+        "az": "Lütfen dilinizi seçin / Zəhmət olmasa dilinizi seçin",
+    },
+    "game_explain": {
+        "tr": (
+            "🎲 **Oyun Nasıl Oynanır?**\n"
+            "1. /katil ile oyuna katılın.\n"
+            "2. Roller rastgele dağıtılır.\n"
+            "3. Oylama turları ile oyuncular elenir.\n"
+            "4. Özel güçlerinizi kullanarak rakiplerinizi saf dışı bırakın.\n"
+            "5. Son hayatta kalan kazanır!"
+        ),
+        "az": (
+            "🎲 **Oyun Necə Oynanır?**\n"
+            "1. /katil ilə oyuna qoşulun.\n"
+            "2. Rollar təsadüfi paylanır.\n"
+            "3. Səsvermə turları ilə oyunçular çıxarılır.\n"
+            "4. Xüsusi güclərinizi istifadə edərək rəqiblərinizi aradan qaldırın.\n"
+            "5. Son sağ qalan qalib olur!"
+        ),
+    },
+    "support_dev": {
+        "tr": "Destek Grubu: t.me/kizilsancaktr\nGeliştirici: t.me/ZeydBinhalit",
+        "az": "Dəstək Qrupu: t.me/kizilsancaktr\nİnkişaf etdirici: t.me/ZeydBinhalit",
+    },
+    "vote_prompt": {
+        "tr": "Lütfen oyunu kullanmak için aşağıdaki butonlardan birine tıklayın:",
+        "az": "Zəhmət olmasa aşağıdakı düymələrdən birinə basaraq səs verin:",
+    },
+    "vote_received": {
+        "tr": "Oyunuz alındı: {}",
+        "az": "Səsiniz qeydə alındı: {}",
+    },
+    "vote_closed": {
+        "tr": "Oylama kapandı!",
+        "az": "Səsvermə bitdi!",
+    },
+    "vote_no_active": {
+        "tr": "Şu anda oylama aktif değil.",
+        "az": "Hal-hazırda səsvermə aktiv deyil.",
+    },
+    "no_role": {
+        "tr": "Henüz rolünüz atanmamış veya oyuna katılmamışsınız.",
+        "az": "Hələ rolunuz təyin edilməyib və ya oyuna qoşulmamısınız.",
+    },
+}
 
 
 def main():
