@@ -1,113 +1,150 @@
-import logging
-import json
-import random
+import os
 import asyncio
-from telegram import Update, ForceReply
-from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes, MessageHandler, filters
-
-# LOG Ayarları
-logging.basicConfig(
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    level=logging.INFO
+import random
+import json
+from telegram import Update
+from telegram.ext import (
+    ApplicationBuilder,
+    CommandHandler,
+    ContextTypes,
 )
-logger = logging.getLogger(__name__)
 
-# Global değişkenler
-TOKEN = "BOT_TOKENINIZI_BURAYA_YAZIN"
+from game_manager import kullan_rol_gucu
 
-# Oyuncu listesi ve roller
+TOKEN = os.getenv("BOT_TOKEN")
+
 players = []
+game_started = False
 player_roles = {}
-game_active = False
+languages = {}
+roles = {}
 
-# Dil dosyasını yükle
-with open("languages/tr.json", "r", encoding="utf-8") as f:
-    texts = json.load(f)
-
-# Roller dosyası
-with open("roles.json", "r", encoding="utf-8") as f:
-    roles = json.load(f)
+KATILIM_SÜRESİ = 120  # saniye
+OY_SÜRESİ = 40        # saniye
+MIN_PLAYER = 6
 
 
-async def start_game(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    global game_active, players, player_roles
+def load_roles():
+    global roles
+    with open("roles.json", "r", encoding="utf-8") as f:
+        roles = json.load(f)
 
-    if game_active:
-        await update.message.reply_text("Bir oyun zaten devam ediyor!")
+
+def load_languages():
+    global languages
+    for lang in ["tr", "az"]:
+        with open(f"languages/{lang}.json", "r", encoding="utf-8") as f:
+            languages[lang] = json.load(f)
+
+
+def get_text(lang, key):
+    return languages.get(lang, {}).get(key, key)
+
+
+def detect_lang(user):
+    # Not: Daha gelişmiş kontrol yapılabilir
+    return "tr" if user.language_code == "tr" else "az"
+
+
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    lang = detect_lang(update.effective_user)
+    await update.message.reply_text(get_text(lang, "welcome"))
+
+
+async def katil(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    global players, game_started
+    lang = detect_lang(update.effective_user)
+
+    if game_started:
+        await update.message.reply_text(get_text(lang, "game_already_started"))
         return
 
-    players = []
-    player_roles = {}
-    game_active = True
+    players = [update.effective_user.id]
+    await update.message.reply_text(get_text(lang, "join_started"))
 
-    await update.message.reply_text(texts["oyun_basladi"])
-    await asyncio.sleep(120)  # 2 dakika katılım süresi
+    async def wait_for_players():
+        await asyncio.sleep(KATILIM_SÜRESİ)
+        if len(players) < MIN_PLAYER:
+            await context.bot.send_message(
+                chat_id=update.effective_chat.id,
+                text=get_text(lang, "not_enough_players")
+            )
+            return
 
-    if len(players) < 6:
-        await update.message.reply_text("Yeterli oyuncu toplanamadı. Oyun iptal edildi.")
-        game_active = False
-        return
+        await context.bot.send_message(
+            chat_id=update.effective_chat.id,
+            text=get_text(lang, "game_starting")
+        )
+        await baslat_oyun(context, update)
 
-    await update.message.reply_text(texts["oyun_baslatiliyor"])
-    assign_roles()
-    await send_roles(context)
-
-
-def assign_roles():
-    global player_roles
-    available_roles = list(roles.keys())
-    random.shuffle(available_roles)
-
-    for i, player in enumerate(players):
-        role_key = available_roles[i % len(available_roles)]
-        player_roles[player] = role_key
+    asyncio.create_task(wait_for_players())
 
 
-async def send_roles(context: ContextTypes.DEFAULT_TYPE):
-    for player_id, role_key in player_roles.items():
-        role = roles[role_key]
-        text = texts["rol_dm"].format(rol_adi=role["ad"], guc=role["guc"])
+async def baslat_oyun(context, update):
+    global game_started, player_roles
+    game_started = True
+
+    chat_id = update.effective_chat.id
+    random.shuffle(players)
+    selected_roles = random.sample(list(roles.keys()), len(players))
+    player_roles = dict(zip(players, selected_roles))
+
+    for user_id, rol_key in player_roles.items():
+        rol = roles[rol_key]
         try:
-            await context.bot.send_message(chat_id=player_id, text=text)
+            await context.bot.send_message(
+                chat_id=user_id,
+                text=f"Rolün: {rol['ad']}\nGüç: {rol['guc']}"
+            )
         except Exception as e:
-            logger.error(f"{player_id} kullanıcısına rol gönderilemedi: {e}")
+            print(f"DM gönderilemedi: {e}")
+
+    await context.bot.send_message(chat_id=chat_id, text="🗳️ Oylama başlıyor...")
+
+    await oylama_süreci(chat_id, context)
 
 
-async def join_game(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    global players, game_active
-
-    if not game_active:
-        await update.message.reply_text("Şu anda aktif bir oyun yok. /oyun komutunu kullanarak yeni oyun başlatabilirsiniz.")
-        return
-
-    user_id = update.message.from_user.id
-    if user_id in players:
-        await update.message.reply_text(texts["zaten_katildin"])
-        return
-
-    players.append(user_id)
-    await update.message.reply_text(texts["katilan_oyuncu"].format(kullanici=update.message.from_user.first_name))
-    await update.message.reply_text(texts["oyuncu_sayisi"].format(sayi=len(players)))
-
-
-async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    help_text = (
-        "/oyun - Yeni oyun başlat\n"
-        "/katıl - Oyuna katıl\n"
-        "/yardım - Bu mesajı göster\n"
+async def oylama_süreci(chat_id, context):
+    await asyncio.sleep(OY_SÜRESİ)
+    secilen = random.choice(players)
+    await context.bot.send_message(
+        chat_id=chat_id,
+        text=f"❌ {secilen} ID'li oyuncu elendi."
     )
-    await update.message.reply_text(help_text)
+    players.remove(secilen)
+
+    # Elenenin özel gücü varsa çalıştır
+    if secilen in player_roles:
+        await kullan_rol_gucu(secilen, chat_id, context)
+
+    if len(players) <= 1:
+        await context.bot.send_message(
+            chat_id=chat_id,
+            text="🏁 Oyun bitti!"
+        )
+    else:
+        await context.bot.send_message(
+            chat_id=chat_id,
+            text="🗳️ Yeni oylama turu başlıyor..."
+        )
+        await oylama_süreci(chat_id, context)
 
 
 def main():
-    application = ApplicationBuilder().token(TOKEN).build()
+    load_roles()
+    load_languages()
 
-    application.add_handler(CommandHandler("oyun", start_game))
-    application.add_handler(CommandHandler("katıl", join_game))
-    application.add_handler(CommandHandler("yardım", help_command))
+    if not TOKEN:
+        raise ValueError("BOT_TOKEN ortam değişkeni ayarlanmalı.")
 
-    application.run_polling()
+    app = ApplicationBuilder().token(TOKEN).build()
+
+    app.add_handler(CommandHandler("start", start))
+    app.add_handler(CommandHandler("katil", katil))
+
+    print("Bot çalışıyor...")
+    app.run_polling()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
