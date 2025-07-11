@@ -2,91 +2,109 @@
   "osmanli": {
     "ad": "Osmanlı İmparatorluğu",
     "guc": "Her 2 oylamada bir ülke infaz eder.",
-    "tip": "infaz"
+    "tip": "infaz",
+    "gif": "https://media.tenor.com/BxwWqAfwRYEAAAAd/ottoman-sultan.gif"
   },
   "german": {
     "ad": "German İmparatorluğu",
     "guc": "2 oylamada bir kaos çıkarır, tek başına oy kullanır.",
-    "tip": "kaos"
+    "tip": "kaos",
+    "gif": "https://media.tenor.com/GmYtq2nhW6UAAAAd/german-army.gif"
   },
   "biritanya": {
     "ad": "Biritanya",
     "guc": "Bir ülkenin oyunu kendi istediği ülkeye yönlendirir.",
-    "tip": "manipulasyon"
+    "tip": "manipulasyon",
+    "gif": "https://media.tenor.com/WgnxqdlNZwoAAAAd/queen-elizabeth.gif"
   },
   "pdm": {
     "ad": "Renkli Dünya (PDM)",
     "guc": "Şok mesaj gönderir, meydan okur.",
-    "tip": "karisik"
+    "tip": "karisik",
+    "gif": "https://media.tenor.com/6pMVyzWjNG4AAAAd/pride-protest.gif"
   },
   "fransa": {
     "ad": "Fransa",
     "guc": "Elendikten sonra bir ülkeyi geri getirme hakkı.",
-    "tip": "destek"
+    "tip": "destek",
+    "gif": "https://media.tenor.com/NubpZ0b9pRYAAAAd/french-flag.gif"
   },
   "rusya": {
     "ad": "Rusya",
     "guc": "Gece tüm özel güçleri engeller.",
-    "tip": "engel"
+    "tip": "engel",
+    "gif": "https://media.tenor.com/4Khuqy9sLxsAAAAd/putin.gif"
   },
   "cin": {
     "ad": "Çin",
     "guc": "Her gece rastgele bir ülkenin kimliğini öğrenir.",
-    "tip": "bilgi"
+    "tip": "bilgi",
+    "gif": "https://media.tenor.com/vHFS4RPrzGgAAAAd/china.gif"
   },
   "amerika": {
     "ad": "Amerika",
     "guc": "Gece ve gündüz boyunca dokunulmaz olur.",
-    "tip": "koruma"
+    "tip": "koruma",
+    "gif": "https://media.tenor.com/3O2sUED6kJcAAAAd/usa.gif"
   },
   "japonya": {
     "ad": "Japonya",
     "guc": "Öldüğünde yanında bir ülkeyi götürür.",
-    "tip": "intikam"
+    "tip": "intikam",
+    "gif": "https://media.tenor.com/4zjuHyOmqy8AAAAd/samurai.gif"
   },
   "israil": {
     "ad": "İsrail",
     "guc": "Çift oy hakkı vardır.",
-    "tip": "oygucu"
+    "tip": "oygucu",
+    "gif": "https://media.tenor.com/fRveRzKeXYgAAAAd/netanyahu.gif"
   },
   "iran": {
     "ad": "İran",
     "guc": "%50 ihtimalle saldırıdan kurtulur.",
-    "tip": "savunma"
+    "tip": "savunma",
+    "gif": "https://media.tenor.com/UVQ2q1WxgNUAAAAd/iran.gif"
   },
   "hindistan": {
     "ad": "Hindistan",
     "guc": "Oy sıralamasını rastgele karıştırır.",
-    "tip": "sabotaj"
+    "tip": "sabotaj",
+    "gif": "https://media.tenor.com/qDkM1pmDrXIAAAAd/india.gif"
   },
   "kuzeykore": {
     "ad": "Kuzey Kore",
     "guc": "Ölümünü sahte gösterir, geri döner.",
-    "tip": "geri_don"
+    "tip": "geri_don",
+    "gif": "https://media.tenor.com/5zwRCbRrE5MAAAAd/kim-jong-un.gif"
   },
   "brezilya": {
     "ad": "Brezilya",
     "guc": "2 ülkeyi oylamaya aynı anda sunar.",
-    "tip": "ikili"
+    "tip": "ikili",
+    "gif": "https://media.tenor.com/2-nE1dELRdsAAAAd/brazil.gif"
   },
   "italya": {
     "ad": "İtalya",
     "guc": "Birinin özel gücünü çalar.",
-    "tip": "hirsiz"
+    "tip": "hirsiz",
+    "gif": "https://media.tenor.com/6Hq45QK-LroAAAAd/italy.gif"
   },
   "yunanistan": {
     "ad": "Yunanistan",
     "guc": "Oyları açık verir.",
-    "tip": "seffaf"
+    "tip": "seffaf",
+    "gif": "https://media.tenor.com/HYKd2aRgR9QAAAAd/greece.gif"
   },
   "meksika": {
     "ad": "Meksika",
     "guc": "Kendisine gelen oyları başka ülkeye yönlendirir.",
-    "tip": "sapma"
+    "tip": "sapma",
+    "gif": "https://media.tenor.com/N4EY5DvHN6sAAAAd/mexico.gif"
   },
   "turkiye": {
     "ad": "Türkiye",
     "guc": "Oylamayı bir kere sıfırlar ve yeniden başlatır.",
-    "tip": "reset"
+    "tip": "reset",
+    "gif": "https://media.tenor.com/kWfAmXqQYOIAAAAd/turkey.gif"
   }
 }
