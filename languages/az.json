@@ -1,0 +1,14 @@
+{
+  "oyun_basladi": "🎮 Ölkə Müharibəsi başlayır! Qoşulmaq üçün /katil yazın. Müddət: 2 dəqiqə",
+  "katilan_oyuncu": "✅ Qoşuldunuz: {kullanici}",
+  "zaten_katildin": "⚠️ Artıq qoşulmusan!",
+  "oyuncu_sayisi": "👥 İndiki oyunçu sayı: {sayi}",
+  "oyun_baslatiliyor": "⏳ Lazımi oyunçu sayı tamamlandı. Oyun başlayır...",
+  "rol_dm": "🎭 Rolunuz: {rol_adi}\n🛡️ Gücünüz: {guc}",
+  "gece_basladi": "🌙 Gecə başladı. Zəhmət olmasa öz gücünüz varsa DM-dən istifadə edin.",
+  "gunduz_basladi": "🌞 Gündüz başladı. Səsvermə başlayır! Müddət: 40 saniyə.",
+  "oylama_sonuclari": "📊 Səsvermə nəticələri:\n{sonuclar}",
+  "oyuncu_elendi": "❌ {oyuncu} çoxluq səsi ilə oyun xaric edildi.",
+  "oyun_bitti": "🏁 Oyun başa çatdı! Qalib tərəf: {kazanan}",
+  "pdm_mesaj": "🏳️‍🌈 *Pembe Dünya Direnişçileri (PDM)*\n_Biz burdayıq, qarışıqlıq bizim işimizdir, sizə meydan oxuyuruq!_"
+}
