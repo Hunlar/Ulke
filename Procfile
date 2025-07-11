@@ -1,1 +1,1 @@
-worker: python ulkebot/main.py
+worker: python main.py
